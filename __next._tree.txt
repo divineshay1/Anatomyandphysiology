@@ -1,0 +1,2 @@
+:HL["/Anatomyandphysiology/_next/static/chunks/b4c06a5a4e361a18.css","style"]
+0:{"buildId":"w0AZQI8OOFaKG4KCdj7Qd","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
