@@ -11,6 +11,7 @@ import { CaseStudy, Module, Question } from "@/data/types";
 import { moduleMastery } from "@/lib/mastery";
 import PlanesChallenge from "@/components/PlanesChallenge";
 import CavitiesChallenge from "@/components/CavitiesChallenge";
+import { NurseSprite, PatientBedScene } from "@/components/PixelCharacters";
 
 type View =
   | "home"
@@ -206,8 +207,8 @@ export default function Page() {
             </h1>
           </div>
           <div className="player-chip">
-            <span className="avatar" aria-label="Player avatar">
-              <PixelAvatar />
+            <span className="avatar" aria-label="Player avatar (you, the nurse)">
+              <NurseSprite />
             </span>
             <div>
               <b>Level {level(player.xp)}</b>
@@ -313,9 +314,8 @@ function Home({
           </button>
         </div>
         <div className="hero-art">
-          <div className="orbit one">+</div>
-          <div className="body-icon">♁</div>
-          <div className="orbit two">✦</div>
+          <NurseSprite className="hero-nurse" />
+          <div className="hero-floor" />
           <small>
             {nextModule.title.toUpperCase()}
             <br />
@@ -378,23 +378,6 @@ function Home({
         </button>
       </div>
     </>
-  );
-}
-
-// A small hand-authored pixel-art bust, decorative only — no game logic
-// attached. Swap this out first if real sprite assets are provided later.
-function PixelAvatar() {
-  return (
-    <svg viewBox="0 0 10 10" shapeRendering="crispEdges" aria-hidden="true">
-      <rect x="2" y="0" width="6" height="2" fill="#3a2a1f" />
-      <rect x="2" y="2" width="1" height="3" fill="#3a2a1f" />
-      <rect x="7" y="2" width="1" height="3" fill="#3a2a1f" />
-      <rect x="3" y="2" width="4" height="5" fill="#f0c39a" />
-      <rect x="3" y="4" width="1" height="1" fill="#3a2a1f" />
-      <rect x="6" y="4" width="1" height="1" fill="#3a2a1f" />
-      <rect x="1" y="7" width="8" height="3" fill="#2f9a9d" />
-      <rect x="4" y="7" width="2" height="1" fill="#1c7274" />
-    </svg>
   );
 }
 
@@ -682,7 +665,7 @@ function Case({ onXp }: { onXp: (amount: number) => void }) {
     return (
       <div className="review">
         <div className="review-hero">
-          <span>✚</span>
+          <PatientBedScene className="bedside-scene-sm" />
           <div>
             <p className="eyebrow">CLINICAL DETECTIVE</p>
             <h2>Choose a case file</h2>
@@ -740,7 +723,10 @@ function CaseRunner({
         ← Choose another case
       </button>
       <div className="case-intro">
-        <span>✚</span>
+        <div className="bedside-scene">
+          <PatientBedScene className="bedside-patient" />
+          <NurseSprite className="bedside-nurse" />
+        </div>
         <div>
           <p className="eyebrow">EDUCATIONAL CASE STUDY</p>
           <h2>{caseStudy.title}</h2>
