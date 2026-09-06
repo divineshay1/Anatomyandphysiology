@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { allQuestions, modules } from "@/data/modules";
 import { instructorQuestions } from "@/data/courseContent/instructor";
@@ -11,7 +12,6 @@ import { CaseStudy, Module, Question } from "@/data/types";
 import { moduleMastery } from "@/lib/mastery";
 import PlanesChallenge from "@/components/PlanesChallenge";
 import CavitiesChallenge from "@/components/CavitiesChallenge";
-import { NurseSprite, PatientBedScene } from "@/components/PixelCharacters";
 
 type View =
   | "home"
@@ -208,7 +208,7 @@ export default function Page() {
           </div>
           <div className="player-chip">
             <span className="avatar" aria-label="Player avatar (you, the nurse)">
-              <NurseSprite />
+              <Image src="/characters/nurse.png" alt="" width={64} height={64} unoptimized />
             </span>
             <div>
               <b>Level {level(player.xp)}</b>
@@ -314,8 +314,7 @@ function Home({
           </button>
         </div>
         <div className="hero-art">
-          <NurseSprite className="hero-nurse" />
-          <div className="hero-floor" />
+          <Image src="/characters/nurse.png" alt="" width={321} height={230} className="hero-nurse" unoptimized />
           <small>
             {nextModule.title.toUpperCase()}
             <br />
@@ -665,7 +664,7 @@ function Case({ onXp }: { onXp: (amount: number) => void }) {
     return (
       <div className="review">
         <div className="review-hero">
-          <PatientBedScene className="bedside-scene-sm" />
+          <Image src="/characters/bedside-scene.png" alt="" width={390} height={320} className="bedside-scene-sm" unoptimized />
           <div>
             <p className="eyebrow">CLINICAL DETECTIVE</p>
             <h2>Choose a case file</h2>
@@ -724,8 +723,7 @@ function CaseRunner({
       </button>
       <div className="case-intro">
         <div className="bedside-scene">
-          <PatientBedScene className="bedside-patient" />
-          <NurseSprite className="bedside-nurse" />
+          <Image src="/characters/bedside-scene.png" alt="" width={390} height={320} className="bedside-patient" unoptimized />
         </div>
         <div>
           <p className="eyebrow">EDUCATIONAL CASE STUDY</p>

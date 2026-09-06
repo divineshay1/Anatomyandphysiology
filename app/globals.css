@@ -126,7 +126,7 @@ header { display: flex; align-items: center; justify-content: space-between; mar
   border: 3px solid var(--outline); background: var(--teal-light);
   display: grid; place-items: center; overflow: hidden; flex: 0 0 auto;
 }
-.avatar svg { width: 26px; height: 26px; image-rendering: pixelated; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 
 /* ============================================================
    BUTTONS
@@ -171,12 +171,7 @@ header { display: flex; align-items: center; justify-content: space-between; mar
 .hero h2 { font-size: 27px; font-weight: 800; letter-spacing: -0.4px; margin: 9px 0; }
 .hero p { color: var(--muted); font-size: 13px; line-height: 1.55; max-width: 380px; }
 .hero-art { width: 180px; position: relative; height: 160px; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 0 0 auto; }
-.hero-nurse { width: 90px; height: auto; image-rendering: pixelated; filter: drop-shadow(3px 3px 0 var(--outline)); }
-.hero-floor {
-  width: 100px; height: 14px; border-radius: 50%;
-  background: var(--teal-light); border: 2px solid var(--outline);
-  margin-top: -6px;
-}
+.hero-nurse { width: 130px; height: auto; border-radius: var(--radius-sm); border: 3px solid var(--outline); box-shadow: var(--shadow-px-sm); }
 .hero-art small { margin-top: 10px; font-size: 9px; color: var(--muted); line-height: 1.5; font-weight: 700; text-align: center; }
 
 /* ============================================================
@@ -347,9 +342,8 @@ header { display: flex; align-items: center; justify-content: space-between; mar
   background: var(--panel); border: 2px solid var(--outline); border-radius: var(--radius-sm);
   padding: 14px; margin-bottom: 14px;
 }
-.bedside-patient { width: 190px; height: auto; image-rendering: pixelated; }
-.bedside-nurse { width: 46px; height: auto; image-rendering: pixelated; filter: drop-shadow(2px 2px 0 var(--outline)); }
-.bedside-scene-sm { width: 70px; height: auto; image-rendering: pixelated; flex: 0 0 auto; }
+.bedside-patient { width: 260px; height: auto; border-radius: var(--radius-sm); }
+.bedside-scene-sm { width: 90px; height: auto; flex: 0 0 auto; border-radius: var(--radius-sm); border: 2px solid var(--outline); }
 .case-question { max-width: 680px; margin: auto; }
 
 .complete { text-align: center; background: var(--panel); border: 4px solid var(--outline); border-radius: var(--radius); padding: 38px; box-shadow: var(--shadow-px-lg); }
@@ -526,8 +520,8 @@ header { display: flex; align-items: center; justify-content: space-between; mar
   .lab-body { gap: 40px; }
   .torso { transform: scale(.82); margin-top: -10px; margin-bottom: -20px; }
   .case-intro { padding: 16px; }
-  .bedside-patient { width: 150px; }
-  .bedside-nurse { width: 38px; }
+  .bedside-patient { width: 200px; }
+  .hero-nurse { width: 100px; }
   .review-question { grid-template-columns: 1fr; gap: 5px; }
   .review-question small { margin-top: 4px; }
   .mastery-card { padding: 20px 17px; }
