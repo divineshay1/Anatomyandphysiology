@@ -6,6 +6,8 @@
 .world-section:last-child{margin-bottom:0}
 .world-heading{font-size:11px;font-weight:700;letter-spacing:.8px;color:#8f95ac;text-transform:uppercase;margin:0 0 10px}
 .challenge-card{border-style:dashed;border-color:#b9a3f2;background:#faf8ff}
+.challenge-card.teal{border-color:#8bd6d0;background:#f3fdfc}
+.challenge-card.teal .challenge-tag{color:#138b85;background:#dcf5f2}
 .challenge-tag{position:absolute;top:14px;right:15px;font-size:9px;font-weight:800;letter-spacing:.6px;color:#7755e3;background:#f0ecff;padding:3px 7px;border-radius:20px}
 
 .planes-wrap{max-width:890px;margin:0 auto}
@@ -43,4 +45,13 @@
 .boss-card{border-color:#c9b6f5;box-shadow:0 14px 35px #6b4be81a}
 
 @media(max-width:560px){.planes-intro{flex-wrap:wrap;padding:20px}.plane-diagram svg{max-width:170px}}
+
+/* Major Body Cavities Challenge (World 2) */
+.cavities-intro{background:linear-gradient(110deg,#e7f8f7,#f2fcfb)}
+.cavities-intro>span{background:#c9eeeb;color:#138b85}
+.cavity-region{cursor:pointer;fill:transparent;stroke:none;transition:.15s}
+.cavity-region:hover{fill:#1caaa11f}
+.cavity-region:focus-visible{outline:none;fill:#1caaa133}
+.cavity-region.correct{fill:#3bb38955}
+.cavity-region.wrong{fill:#e0685c4d}
 @media(max-width:850px){.sidebar{display:none}.content{margin:0;width:100%;padding:75px 20px 35px}.mobile-nav{display:flex;position:fixed;z-index:4;top:0;left:0;right:0;height:55px;padding:12px 16px;background:#ffffffed;backdrop-filter:blur(9px);border-bottom:1px solid var(--line);align-items:center;gap:14px}.mobile-nav .brand{margin-right:auto;padding:0;font-size:17px}.mobile-nav button{background:#f3f1ff;color:#664bd6;border-radius:7px;width:27px;height:27px}.hero{padding:27px;min-height:225px}.hero-art{display:none}.module-grid{grid-template-columns:1fr 1fr}.badges{grid-template-columns:1fr 1fr}}@media(max-width:560px){header{margin-bottom:20px}.player-chip strong{display:none}h1{font-size:25px}.hero h2{font-size:27px}.stats{gap:7px;margin:14px 0 29px}.stat{padding:9px;height:61px}.stat>span{display:none}.stat b{font-size:13px}.stat small{font-size:8px}.section-title{align-items:center}.module-card{height:148px;padding:14px}.lower-grid,.explorer-grid,.lab-body{grid-template-columns:1fr}.feature-card{min-height:120px}.question-card{padding:23px 18px}.question-card h2{font-size:22px}.mission-head h2{font-size:22px}.lab-body{gap:45px}.torso{transform:scale(.82);margin-top:-10px;margin-bottom:-20px}.case-intro{flex-wrap:wrap;padding:20px}.case-intro small{margin-left:67px;max-width:calc(100% - 67px)}.review-question{grid-template-columns:1fr;gap:5px}.review-question small{margin-top:4px}.mastery-card{padding:23px 19px}.ring{width:80px;height:80px;flex-basis:80px}.ring span{font-size:18px}.mastery-card h2{font-size:19px}.progress-modules>div{grid-template-columns:100px 1fr 32px}.badges{gap:8px}.badge{padding:11px}.hero{margin-left:-4px;margin-right:-4px}.module-grid{gap:9px}}

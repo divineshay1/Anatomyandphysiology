@@ -5,12 +5,24 @@ import { allQuestions, modules } from "@/data/modules";
 import { instructorQuestions } from "@/data/courseContent/instructor";
 import { caseStudies } from "@/data/cases";
 import { labStations } from "@/data/labStations";
-import { BOSS_BADGE } from "@/data/planesChallenge";
+import { BOSS_BADGE as PLANES_BOSS_BADGE } from "@/data/planesChallenge";
+import { BOSS_BADGE as CAVITIES_BOSS_BADGE } from "@/data/cavitiesChallenge";
 import { CaseStudy, Module, Question } from "@/data/types";
 import { moduleMastery } from "@/lib/mastery";
 import PlanesChallenge from "@/components/PlanesChallenge";
+import CavitiesChallenge from "@/components/CavitiesChallenge";
 
-type View = "home" | "missionSelect" | "mission" | "planesChallenge" | "lab" | "case" | "explore" | "review" | "progress";
+type View =
+  | "home"
+  | "missionSelect"
+  | "mission"
+  | "planesChallenge"
+  | "cavitiesChallenge"
+  | "lab"
+  | "case"
+  | "explore"
+  | "review"
+  | "progress";
 type Player = {
   xp: number;
   streak: number;
@@ -115,7 +127,16 @@ export default function Page() {
       setPlayer((p) => ({
         ...p,
         xp: p.xp + 50,
-        badges: p.badges.includes(BOSS_BADGE) ? p.badges : [...p.badges, BOSS_BADGE],
+        badges: p.badges.includes(PLANES_BOSS_BADGE) ? p.badges : [...p.badges, PLANES_BOSS_BADGE],
+      })),
+    []
+  );
+  const awardCavityBoss = useCallback(
+    () =>
+      setPlayer((p) => ({
+        ...p,
+        xp: p.xp + 50,
+        badges: p.badges.includes(CAVITIES_BOSS_BADGE) ? p.badges : [...p.badges, CAVITIES_BOSS_BADGE],
       })),
     []
   );
@@ -204,7 +225,11 @@ export default function Page() {
           />
         )}
         {view === "missionSelect" && (
-          <MissionSelect player={player} onModule={startModule} onChallenge={() => setView("planesChallenge")} />
+          <MissionSelect
+            player={player}
+            onModule={startModule}
+            onChallenge={(which) => setView(which === "planes" ? "planesChallenge" : "cavitiesChallenge")}
+          />
         )}
         {view === "mission" && (
           <Mission
@@ -225,6 +250,13 @@ export default function Page() {
             onExit={() => setView("missionSelect")}
           />
         )}
+        {view === "cavitiesChallenge" && (
+          <CavitiesChallenge
+            onRecord={recordChallengeAnswer}
+            onBossWin={awardCavityBoss}
+            onExit={() => setView("missionSelect")}
+          />
+        )}
         {view === "lab" && <Lab onDone={() => setView("home")} onXp={addXp} />}
         {view === "case" && <Case onXp={addXp} />}
         {view === "explore" && <Explorer />}
@@ -241,6 +273,7 @@ function titleFor(v: View) {
     missionSelect: "Choose your mission",
     mission: "",
     planesChallenge: "Body Planes Challenge",
+    cavitiesChallenge: "Major Body Cavities",
     lab: "Practice Lab",
     case: "Clinical Detective",
     explore: "Anatomy Explorer",
@@ -372,7 +405,7 @@ function MissionSelect({
 }: {
   player: Player;
   onModule: (id: string) => void;
-  onChallenge: () => void;
+  onChallenge: (which: "planes" | "cavities") => void;
 }) {
   return (
     <div className="grid-section">
@@ -406,12 +439,20 @@ function MissionSelect({
               );
             })}
             {world.title === "World 2 · The Human Map" && (
-              <button className="module-card violet challenge-card" onClick={onChallenge}>
-                <span className="challenge-tag">CHALLENGE</span>
-                <span className="module-icon">🎯</span>
-                <b>Body Planes Challenge</b>
-                <small>4 rounds · basic, visual, scenario, boss</small>
-              </button>
+              <>
+                <button className="module-card violet challenge-card" onClick={() => onChallenge("planes")}>
+                  <span className="challenge-tag">CHALLENGE</span>
+                  <span className="module-icon">🎯</span>
+                  <b>Body Planes Challenge</b>
+                  <small>4 rounds · basic, visual, scenario, boss</small>
+                </button>
+                <button className="module-card teal challenge-card" onClick={() => onChallenge("cavities")}>
+                  <span className="challenge-tag">CHALLENGE</span>
+                  <span className="module-icon">🗺️</span>
+                  <b>Major Body Cavities</b>
+                  <small>4 rounds · basic, visual, scenario, boss</small>
+                </button>
+              </>
             )}
           </div>
         </div>
