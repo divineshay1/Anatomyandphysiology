@@ -5,10 +5,12 @@ import { allQuestions, modules } from "@/data/modules";
 import { instructorQuestions } from "@/data/courseContent/instructor";
 import { caseStudies } from "@/data/cases";
 import { labStations } from "@/data/labStations";
+import { BOSS_BADGE } from "@/data/planesChallenge";
 import { CaseStudy, Module, Question } from "@/data/types";
 import { moduleMastery } from "@/lib/mastery";
+import PlanesChallenge from "@/components/PlanesChallenge";
 
-type View = "home" | "missionSelect" | "mission" | "lab" | "case" | "explore" | "review" | "progress";
+type View = "home" | "missionSelect" | "mission" | "planesChallenge" | "lab" | "case" | "explore" | "review" | "progress";
 type Player = {
   xp: number;
   streak: number;
@@ -87,6 +89,36 @@ export default function Page() {
     setView("mission");
   };
   const addXp = useCallback((amount: number) => setPlayer((p) => ({ ...p, xp: p.xp + amount })), []);
+  // Used by self-contained mini-games (Body Planes Challenge, future world
+  // challenges) that keep their own local question-index state instead of
+  // sharing Page's choice/checked state the way Mission does. `answered`
+  // gates XP so retrying a round can't farm XP on the same item twice, but
+  // `correct` can still improve on a retry.
+  const recordChallengeAnswer = useCallback(
+    (id: string, topic: string, xp: number, good: boolean) =>
+      setPlayer((p) => {
+        const alreadyAnswered = p.answered.includes(id);
+        const alreadyCorrect = p.correct.includes(id);
+        return {
+          ...p,
+          xp: p.xp + (!alreadyAnswered ? (good ? xp : 5) : good && !alreadyCorrect ? xp : 0),
+          streak: good ? p.streak + 1 : 0,
+          answered: alreadyAnswered ? p.answered : [...p.answered, id],
+          correct: good && !alreadyCorrect ? [...p.correct, id] : p.correct,
+          weak: good ? p.weak : { ...p.weak, [topic]: (p.weak[topic] ?? 0) + 1 },
+        };
+      }),
+    []
+  );
+  const awardPlaneBoss = useCallback(
+    () =>
+      setPlayer((p) => ({
+        ...p,
+        xp: p.xp + 50,
+        badges: p.badges.includes(BOSS_BADGE) ? p.badges : [...p.badges, BOSS_BADGE],
+      })),
+    []
+  );
 
   return (
     <main>
@@ -171,7 +203,9 @@ export default function Page() {
             onModule={startModule}
           />
         )}
-        {view === "missionSelect" && <MissionSelect player={player} onModule={startModule} />}
+        {view === "missionSelect" && (
+          <MissionSelect player={player} onModule={startModule} onChallenge={() => setView("planesChallenge")} />
+        )}
         {view === "mission" && (
           <Mission
             module={selected}
@@ -182,6 +216,13 @@ export default function Page() {
             onAnswer={answer}
             onNext={next}
             onBack={() => setView("missionSelect")}
+          />
+        )}
+        {view === "planesChallenge" && (
+          <PlanesChallenge
+            onRecord={recordChallengeAnswer}
+            onBossWin={awardPlaneBoss}
+            onExit={() => setView("missionSelect")}
           />
         )}
         {view === "lab" && <Lab onDone={() => setView("home")} onXp={addXp} />}
@@ -199,6 +240,7 @@ function titleFor(v: View) {
     home: "",
     missionSelect: "Choose your mission",
     mission: "",
+    planesChallenge: "Body Planes Challenge",
     lab: "Practice Lab",
     case: "Clinical Detective",
     explore: "Anatomy Explorer",
@@ -316,7 +358,22 @@ function Stat({ label, value, icon }: { label: string; value: string; icon: stri
   );
 }
 
-function MissionSelect({ player, onModule }: { player: Player; onModule: (id: string) => void }) {
+const WORLDS: { title: string; moduleIds: string[] }[] = [
+  { title: "World 1 · Foundations", moduleIds: ["foundations", "homeostasis"] },
+  { title: "World 2 · The Human Map", moduleIds: ["planes", "cavities", "quadrants"] },
+  { title: "World 3 · Cells", moduleIds: ["cells"] },
+  { title: "World 4 · Tissues", moduleIds: ["tissues"] },
+];
+
+function MissionSelect({
+  player,
+  onModule,
+  onChallenge,
+}: {
+  player: Player;
+  onModule: (id: string) => void;
+  onChallenge: () => void;
+}) {
   return (
     <div className="grid-section">
       <div className="section-title">
@@ -325,24 +382,40 @@ function MissionSelect({ player, onModule }: { player: Player; onModule: (id: st
           <h2>Pick a mission</h2>
         </div>
       </div>
-      <div className="module-grid">
-        {modules.map((m, i) => {
-          const pct = moduleMastery(m, player.correct);
-          return (
-            <button className={`module-card ${m.color}`} onClick={() => onModule(m.id)} key={m.id}>
-              <span className="module-number">0{i + 1}</span>
-              <span className="module-icon">{m.icon}</span>
-              <b>{m.title}</b>
-              <small>
-                {m.questions.length} challenges · {pct}% mastered
-              </small>
-              <div className="mini-progress">
-                <i style={{ width: `${pct}%` }} />
-              </div>
-            </button>
-          );
-        })}
-      </div>
+      {WORLDS.map((world) => (
+        <div className="world-section" key={world.title}>
+          <p className="world-heading">{world.title}</p>
+          <div className="module-grid">
+            {world.moduleIds.map((id) => {
+              const m = modules.find((mod) => mod.id === id);
+              if (!m) return null;
+              const i = modules.findIndex((mod) => mod.id === id);
+              const pct = moduleMastery(m, player.correct);
+              return (
+                <button className={`module-card ${m.color}`} onClick={() => onModule(m.id)} key={m.id}>
+                  <span className="module-number">0{i + 1}</span>
+                  <span className="module-icon">{m.icon}</span>
+                  <b>{m.title}</b>
+                  <small>
+                    {m.questions.length} challenges · {pct}% mastered
+                  </small>
+                  <div className="mini-progress">
+                    <i style={{ width: `${pct}%` }} />
+                  </div>
+                </button>
+              );
+            })}
+            {world.title === "World 2 · The Human Map" && (
+              <button className="module-card violet challenge-card" onClick={onChallenge}>
+                <span className="challenge-tag">CHALLENGE</span>
+                <span className="module-icon">🎯</span>
+                <b>Body Planes Challenge</b>
+                <small>4 rounds · basic, visual, scenario, boss</small>
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
