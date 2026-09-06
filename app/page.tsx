@@ -10,6 +10,8 @@ import { BOSS_BADGE as PLANES_BOSS_BADGE } from "@/data/planesChallenge";
 import { BOSS_BADGE as CAVITIES_BOSS_BADGE } from "@/data/cavitiesChallenge";
 import { CaseStudy, Module, Question } from "@/data/types";
 import { moduleMastery } from "@/lib/mastery";
+import { getAsset } from "@/data/sceneAssets";
+import { Scene } from "@/components/scene/Scene";
 import PlanesChallenge from "@/components/PlanesChallenge";
 import CavitiesChallenge from "@/components/CavitiesChallenge";
 
@@ -208,7 +210,7 @@ export default function Page() {
           </div>
           <div className="player-chip">
             <span className="avatar" aria-label="Player avatar (you, the nurse)">
-              <Image src="/characters/nurse.png" alt="" width={64} height={64} unoptimized />
+              <Image src={getAsset("nurse-default").src!} alt="" width={64} height={64} unoptimized />
             </span>
             <div>
               <b>Level {level(player.xp)}</b>
@@ -314,7 +316,7 @@ function Home({
           </button>
         </div>
         <div className="hero-art">
-          <Image src="/characters/nurse.png" alt="" width={321} height={230} className="hero-nurse" unoptimized />
+          <Image src={getAsset("nurse-default").src!} alt="" width={321} height={230} className="hero-nurse" unoptimized />
           <small>
             {nextModule.title.toUpperCase()}
             <br />
@@ -666,7 +668,7 @@ function Case({ onXp }: { onXp: (amount: number) => void }) {
     return (
       <div className="review">
         <div className="review-hero">
-          <Image src="/characters/bedside-scene.png" alt="" width={390} height={320} className="bedside-scene-sm" unoptimized />
+          <Image src={getAsset("patient-default").src!} alt="" width={195} height={230} className="bedside-scene-sm" unoptimized />
           <div>
             <p className="eyebrow">CLINICAL DETECTIVE</p>
             <h2>Choose a case file</h2>
@@ -724,10 +726,17 @@ function CaseRunner({
         ← Choose another case
       </button>
       <div className="case-intro">
-        <div className="bedside-scene">
-          <Image src="/characters/ward-bay.png" alt="" fill className="ward-bg" unoptimized />
-          <Image src="/characters/bedside-scene.png" alt="" width={390} height={320} className="bedside-patient" unoptimized />
-        </div>
+        <Scene
+          aspectRatio="5 / 3"
+          layers={[
+            { type: "asset", assetId: "env-ward-bay", x: 0, y: 0, widthPct: 100, opacity: 0.4, frame: false },
+            { type: "asset", assetId: "patient-default", x: 3, y: 18, widthPct: 34 },
+            { type: "asset", assetId: "equipment-monitor", x: 39, y: 8, widthPct: 15 },
+            { type: "asset", assetId: "nurse-default", x: 58, y: 12, widthPct: 24 },
+            { type: "hotspot", x: 16, y: 56, label: "Assess patient", detail: "Alert and oriented. Skin warm and dry. No acute distress noted." },
+            { type: "hotspot", x: 45, y: 18, label: "Check vitals", detail: "HR 72 · BP 120/80 — within normal limits for this scenario." },
+          ]}
+        />
         <div>
           <p className="eyebrow">
             <Image src="/characters/stethoscope.png" alt="" width={16} height={16} className="inline-icon" unoptimized />
