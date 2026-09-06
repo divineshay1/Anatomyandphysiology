@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { modules } from "@/data/modules";
 import {
@@ -60,6 +61,21 @@ export default function CavitiesChallenge({
               on the thoracic cavity&apos;s own subdivisions — the pleural cavities and mediastinum.
             </p>
           </div>
+        </div>
+        <div className="organ-strip">
+          {[
+            ["heart", "Heart"],
+            ["lungs", "Lungs"],
+            ["liver", "Liver"],
+            ["kidneys", "Kidneys"],
+            ["stomach", "Stomach"],
+            ["brain", "Brain"],
+          ].map(([file, label]) => (
+            <div className="organ-chip" key={file}>
+              <Image src={`/organs/${file}.png`} alt="" width={32} height={32} unoptimized />
+              <small>{label}</small>
+            </div>
+          ))}
         </div>
         <div className="planes-roadmap">
           <RoadmapStep n={1} title="Basic identification" desc="Six quick recall questions — one per major cavity." />

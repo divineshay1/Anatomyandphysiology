@@ -611,10 +611,12 @@ function Lab({ onDone, onXp }: { onDone: () => void; onXp: (amount: number) => v
           <div className="torso">
             <span className="head" />
             <span className="chest">
-              ♥<i>THORACIC</i>
+              <Image src="/organs/heart.png" alt="Heart" width={28} height={28} className="organ-icon" unoptimized />
+              <i>THORACIC</i>
             </span>
             <span className="abdomen">
-              ●<i>ABDOMINAL</i>
+              <Image src="/organs/stomach.png" alt="Stomach" width={28} height={28} className="organ-icon" unoptimized />
+              <i>ABDOMINAL</i>
             </span>
             <span className="pelvis">
               ◒<i>PELVIC</i>
@@ -723,10 +725,14 @@ function CaseRunner({
       </button>
       <div className="case-intro">
         <div className="bedside-scene">
+          <Image src="/characters/ward-bay.png" alt="" fill className="ward-bg" unoptimized />
           <Image src="/characters/bedside-scene.png" alt="" width={390} height={320} className="bedside-patient" unoptimized />
         </div>
         <div>
-          <p className="eyebrow">EDUCATIONAL CASE STUDY</p>
+          <p className="eyebrow">
+            <Image src="/characters/stethoscope.png" alt="" width={16} height={16} className="inline-icon" unoptimized />
+            EDUCATIONAL CASE STUDY
+          </p>
           <h2>{caseStudy.title}</h2>
           <p>{caseStudy.scenario}</p>
         </div>
