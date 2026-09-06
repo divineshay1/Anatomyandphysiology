@@ -733,15 +733,14 @@ function CaseRunner({
             { type: "asset", assetId: "patient-default", x: 3, y: 18, widthPct: 34 },
             { type: "asset", assetId: "equipment-monitor", x: 39, y: 8, widthPct: 15 },
             { type: "asset", assetId: "nurse-default", x: 58, y: 12, widthPct: 24 },
+            { type: "asset", assetId: "tool-stethoscope", x: 84, y: 62, widthPct: 12 },
             { type: "hotspot", x: 16, y: 56, label: "Assess patient", detail: "Alert and oriented. Skin warm and dry. No acute distress noted." },
             { type: "hotspot", x: 45, y: 18, label: "Check vitals", detail: "HR 72 · BP 120/80 — within normal limits for this scenario." },
+            { type: "hotspot", x: 88, y: 78, label: "Auscultate", detail: "Breath sounds clear bilaterally. Bowel sounds present in all four quadrants." },
           ]}
         />
         <div>
-          <p className="eyebrow">
-            <Image src="/characters/stethoscope.png" alt="" width={16} height={16} className="inline-icon" unoptimized />
-            EDUCATIONAL CASE STUDY
-          </p>
+          <p className="eyebrow">EDUCATIONAL CASE STUDY</p>
           <h2>{caseStudy.title}</h2>
           <p>{caseStudy.scenario}</p>
         </div>

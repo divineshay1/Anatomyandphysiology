@@ -69,7 +69,14 @@ function Hotspot({ layer }: { layer: { x: number; y: number; label: string; deta
         +
       </button>
       {open && (
-        <div className="hotspot-detail" role="note">
+        <div
+          className={[
+            "hotspot-detail",
+            layer.x > 55 ? "align-right" : "",
+            layer.y > 55 ? "align-up" : "",
+          ].join(" ").trim()}
+          role="note"
+        >
           <b>{layer.label}</b>
           <p>{layer.detail}</p>
         </div>
